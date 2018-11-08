@@ -1,0 +1,25 @@
+{
+
+	"manifest_version": 2,
+	"name": "Memrise Bot",
+	"version": "0.0.1",
+
+	"description": "Cheats at Memrise",
+	"permissions": [
+		"*://*.memrise.com/*"
+	],
+
+	"content_scripts": [{
+		"matches": ["*://*.memrise.com/*"],
+		"js": ["/cheat.js"]
+	}],
+
+	"browser_action": {
+		"browser_style": true,
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "icon.png"
+		}
+	}
+
+}
