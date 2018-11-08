@@ -46,6 +46,61 @@ function clickNext() {
 	document.querySelector('.next-button').click();
 }
 
+function findIncomleteLevel() {
+	let progs = document.querySelectorAll(".level-status");
+
+	for (let i=0; i < progs.length; i++) {
+		if (progs[i].children.length === 0 || progs[i].children[0].classList.contains("progress")) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+function solveOrReview() {
+	if (findIncomleteLevel() === -1) {
+		solve();
+	} else {
+		solveSingleLevel();
+	}
+}
+
+//for solving one vocab set, not the entire review
+function solveSingleLevel() {
+	if (document.querySelectorAll(".level").length > 0 && document.querySelector(".leaderboard-text") !== null) {
+		document.querySelectorAll(".level")[findIncomleteLevel()].click();
+	}
+
+	if (document.querySelectorAll('.sel-learn-new-words').length === 1 && document.querySelectorAll(".progress")[0].getAttribute("data-original-title") !== "100% learned") {
+		document.querySelectorAll('.sel-learn-new-words')[0].click();
+	}
+
+	if (document.querySelector(".bar-success") !== null && document.querySelectorAll(".actions-right").length === 1) {
+		document.querySelectorAll(".course-details")[0].children[0].click();
+	}
+
+	if (document.querySelector("#session-complete-banner") !== null) {
+		document.querySelector(".levels").click();
+		document.querySelector(".next_btn").click();
+	}
+
+	let type = determineType();
+
+	if (type === "write") {
+		solveTyping();
+	} else if (type === "order") {
+		solveOrder();
+	} else if (type === "choose") {
+		solveChoose();
+	} else if (type === "teach") {
+		clickNext();
+		return;
+	}
+
+	clickNext();
+}
+
 function solve() {
 	if (document.querySelectorAll('.next_btn').length === 1) {
 		document.querySelectorAll('.next_btn')[0].click();
@@ -83,6 +138,10 @@ function getPrompt() {
 function determineType() {
 	//possible types: "order", "write", "choose", "teach"
 	let boxes = document.querySelector('#boxes');
+
+	if (boxes === null) {
+		return;
+	}
 	let elt = boxes.children[0];
 
 	if (elt.classList.contains("presentation")) {
@@ -103,4 +162,4 @@ function determineType() {
 
 }
 
-window.inter = window.setInterval(solve, 1000);
+window.inter = window.setInterval(solveOrReview, 1000);
