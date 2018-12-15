@@ -27,8 +27,23 @@ for (let i = 0; i < levels.length; i++) {
 			for (let i = 0; i < terms.length; i++) {
 				let colA = terms[i].children[2];
 				let colB = terms[i].children[3];
-				let colAString = colA.innerText;
-				let colBString = colB.innerText;
+
+
+				let colAString;
+				let colBString;
+
+				if (colB.classList.contains("image")) {//image
+					colBString = colB.children[0].children[0].src;
+				} else {//not image
+					colBString = colB.innerText;
+				}
+
+				if (colA.classList.contains("image")) {
+					colAString = colA.children[0].children[0].src;
+				} else {
+					colAString = colA.innerText;
+				}
+
 				defs[colAString] = colBString;
 				defs[colBString] = colAString;
 			}

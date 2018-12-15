@@ -132,6 +132,12 @@ function getPrompt() {
 	if (elt === null) {
 		clickNext();
 	}
+
+	if (elt.children.length == 1 && elt.children[0].tagName == "IMG") {
+		console.log(elt.children[0].src)
+		return elt.children[0].src;
+	}
+
 	return elt.innerText;
 }
 
